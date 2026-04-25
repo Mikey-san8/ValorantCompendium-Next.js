@@ -1,32 +1,29 @@
 "use client";
+import Image from "next/image";
 import { useEffect, useState } from "react";
 import { MapData } from "@/types/maps";
 import { fetchMaps } from "@/lib/api/valorant";
-import Image from "next/image";
 import { SiValorant } from "react-icons/si";
-
 import { motion } from "framer-motion";
-import { fadeInUp } from "@/lib/motion/variants";
+import { fadeIn, fadeInUp } from "@/lib/motion/variants";
+import { Skeleton } from "@mui/material";
+import { useDelay } from "@/hooks/useDelay";
 
 export default function Maps() {
     const [maps, setMaps] = useState<MapData[]>([]);
-    const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
     const [visibleCount, setVisibleCount] = useState(4);
     const [expandedCallouts, setExpandedCallouts] = useState<Set<string>>(new Set());
+    const ready = useDelay(1000);
 
     useEffect(() => {
         async function loadMaps() {
             try {
-                setLoading(true);
                 const data = await fetchMaps();
                 setMaps(data);
                 setError(null);
             } catch (err) {
-                console.error("Failed to fetch maps:", err);
                 setError("Unable to load maps. Please try again later.");
-            } finally {
-                setLoading(false);
             }
         }
         loadMaps();
@@ -51,28 +48,60 @@ export default function Maps() {
     const visibleMaps = maps.slice(0, visibleCount);
     const hasMoreMaps = visibleCount < maps.length;
 
-    if (loading) {
+    if (!ready) {
         return (
-            <div className="flex justify-center items-center min-h-100">
-                <div className="animate-pulse text-gray-500">Loading maps...</div>
+            <div className="container mx-auto my-10">
+                <div className="flex items-center gap-4 mb-8">
+                    <Skeleton variant="circular" width={42} height={42} />
+                    <Skeleton variant="rectangular" width={100} height={42} />
+                </div>
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+                    {Array.from({ length: visibleCount }).map((_, i) => (
+                        <div key={i} className="rounded-lg overflow-hidden flex flex-col max-h-90 shadow-[0px_3px_8px_rgba(0,0,0,0.24)]">
+                            <div className="relative h-48 w-full">
+                                <Skeleton height="100%" variant="rectangular" />
+                            </div>
+                            <div className="flex flex-col gap-4 p-6">
+                                <Skeleton width="30%" height={40} />
+                                <div className="flex flex-col gap-2">
+                                    <Skeleton width={80} height={16} />
+                                    <div className="grid grid-cols-5 gap-2">
+                                        {Array.from({ length: 5 }).map((_, j) => (
+                                            <Skeleton key={j} height={20} variant="rounded" />
+                                        ))}
+                                    </div>
+                                    <Skeleton width="100%" height={32} />
+                                </div>
+                            </div>
+                        </div>
+                    ))}
+                </div>
+                <div className="flex justify-center mt-8">
+                    <Skeleton width={140} height={32} variant="rounded" />
+                </div>
             </div>
         );
     }
 
     if (error) {
         return (
-            <div className="text-center text-red-500 p-8">
-                <p>{error}</p>
+            <div className="container mx-auto my-10">
+                <div className="flex items-center justify-center gap-4 mb-8">
+                    <SiValorant className="h-8 w-8 fill-gray-500" />
+                    <label className="text-2xl text-[#ff4655]">{error}</label>
+                </div>
             </div>
         );
     }
 
     return (
         <div className="container mx-auto my-10">
-            <div className="flex items-center gap-4 mb-8">
-                <SiValorant className="h-10 w-10 fill-[#ff4655]" />
-                <label className="text-4xl font-bold">MAPS</label>
-            </div>
+            <motion.h3
+                variants={fadeIn}
+                initial="hidden"
+                whileInView="visible"
+                viewport={{ once: false, amount: 0.2 }}
+                className="text-2xl font-bold mb-4">MAPS</motion.h3>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
                 {visibleMaps.map((map) => {
                     const callouts = map.callouts || [];
@@ -87,7 +116,7 @@ export default function Maps() {
                             initial="hidden"
                             whileInView="visible"
                             viewport={{ once: false, amount: 0.2 }}
-                            className="bg-[#1a1a1a] rounded-lg overflow-hidden shadow-lg flex flex-col max-h-90">
+                            className="bg-white/80 rounded-lg overflow-hidden flex flex-col max-h-90 shadow-[0px_3px_8px_rgba(0,0,0,0.24)]">
                             {map.splash && (
                                 <div className="relative h-48 w-full">
                                     <Image
@@ -100,7 +129,7 @@ export default function Maps() {
                                 </div>
                             )}
                             <div className="flex flex-col gap-4 p-6">
-                                <h2 className="text-xl text-white font-semibold">{map.displayName}</h2>
+                                <h2 className="text-xl font-semibold">{map.displayName}</h2>
                                 {callouts.length > 0 && (
                                     <div className="flex flex-col gap-2">
                                         <p className="text-sm text-gray-400">Key callouts:</p>

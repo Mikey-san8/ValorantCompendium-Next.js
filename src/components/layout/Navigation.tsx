@@ -6,6 +6,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { slideInRight, staggerContainer } from "@/lib/motion/variants";
 import { HiMenu, HiX } from "react-icons/hi";
 import { DiOpensource } from "react-icons/di";
+import { SiValorant } from "react-icons/si";
 
 type SectionId = "home" | "maps" | "agents" | "weapons";
 
@@ -109,39 +110,46 @@ export default function Navigation() {
                     onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
                     className="flex items-center cursor-pointer"
                     aria-label="Menu">
-                    {mobileMenuOpen ? <HiX className="h-6 w-6" /> : <HiMenu className="h-6 w-6" />}
+                    {mobileMenuOpen ? <HiX className="h-8 w-8 fill-white" /> : <HiMenu className="h-8 w-8 fill-white" />}
                 </button>
             </div>
 
             <AnimatePresence>
                 {mobileMenuOpen && (
                     <motion.div
-                        initial={{ opacity: 0, y: -50 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        exit={{ opacity: 0, y: -50 }}
+                        initial={{ opacity: 0, x: 50 }}
+                        animate={{ opacity: 1, x: 0 }}
+                        exit={{ opacity: 0, x: 50 }}
                         transition={{ duration: 0.2 }}
-                        className="fixed top-20 right-5 bg-white shadow-lg rounded-b-lg z-50 md:hidden">
-                        <div className="flex flex-col gap-4 py-6 px-4">
+                        className="fixed top-18 right-2 bg-[#111111] rounded-lg z-50 md:hidden shadow-[0px_3px_8px_rgba(0,0,0,0.24)]">
+                        <div className="flex flex-col gap-6 p-6">
+                            <div className="flex items-center justify-center">
+                                <SiValorant className="h-8 w-8 fill-[#ff4655]" />
+                            </div>
                             <button
                                 onClick={() => handleScroll("#")}
-                                className={getButtonClass("home")}>
+                                className="text-white text-center">
                                 Home
                             </button>
                             <button
                                 onClick={() => handleScroll("#maps")}
-                                className={getButtonClass("maps")}>
+                                className="text-white text-center">
                                 Maps
                             </button>
                             <button
                                 onClick={() => handleScroll("#agents")}
-                                className={getButtonClass("agents")}>
+                                className="text-white text-center">
                                 Agents
                             </button>
                             <button
                                 onClick={() => handleScroll("#weapons")}
-                                className={getButtonClass("weapons")}>
+                                className="text-white text-center">
                                 Weapons
                             </button>
+                            <a href="https://dash.valorant-api.com/" target="_blank" rel="noopener noreferrer"
+                                className="flex items-center justify-center bg-white rounded-lg py-1 cursor-pointer shadow-[0px_3px_8px_rgba(0,0,0,0.24)] w-28">
+                                <DiOpensource className="h-6 w-6" />
+                            </a>
                         </div>
                     </motion.div>
                 )}
