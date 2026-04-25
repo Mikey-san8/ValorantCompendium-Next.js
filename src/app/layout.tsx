@@ -1,12 +1,12 @@
 import type { Metadata } from "next";
-import { Exo_2 } from "next/font/google";
+import { Oxanium } from "next/font/google";
 import "./globals.css";
 
 import Header from "@/components/layout/Header";
 import SmoothScroll from "@/components/layout/SmoothScroll";
 import Footer from "@/components/layout/Footer";
 
-const exo2 = Exo_2({
+const oxanium = Oxanium({
   subsets: ["latin"],
   weight: ["400", "500", "600", "700"],
 });
@@ -20,7 +20,7 @@ export const metadata: Metadata = {
 export default function RootLayout({ children, }: { children: React.ReactNode; }) {
   return (
     <html lang="en">
-      <body className={`${exo2.className} antialiased`}>
+      <body className={`${oxanium.className} antialiased`}>
         <SmoothScroll>
           <Header />
           {children}
