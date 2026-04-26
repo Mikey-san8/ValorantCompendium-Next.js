@@ -17,7 +17,8 @@ export default function Agents() {
     const [loading, setLoading] = useState(true);
     const [selectedAgent, setSelectedAgent] = useState<AgentData | null>(null);
     const [isImageLoading, setIsImageLoading] = useState(false);
-    const ready = useDelay(1000);
+    const [visibleAgentsCount, setVisibleAgentsCount] = useState(8);
+    const ready = useDelay(2000);
 
     useEffect(() => {
         async function loadAgents() {
@@ -25,9 +26,6 @@ export default function Agents() {
             try {
                 const data = await fetchAgents();
                 setAgents(data);
-                if (data.length > 0) {
-                    setSelectedAgent(data[0]);
-                }
                 setError(null);
             } catch (err) {
                 setError("Unable to load agents. Please try again later.");
@@ -48,6 +46,13 @@ export default function Agents() {
         setIsImageLoading(false);
     };
 
+    const handleShowMoreAgents = () => {
+        setVisibleAgentsCount(prev => prev + 8);
+    };
+
+    const visibleAgents = agents.slice(0, visibleAgentsCount);
+    const hasMoreAgents = visibleAgentsCount < agents.length;
+
     const convertRGBA = (hex: string) => {
         const a = parseInt(hex.slice(0, 2), 16) / 255;
         const r = parseInt(hex.slice(2, 4), 16);
@@ -66,11 +71,14 @@ export default function Agents() {
                     <Skeleton variant="rectangular" width={100} height={42} />
                 </div>
                 <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 lg:grid-cols-6 xl:grid-cols-8 gap-6">
-                    {Array.from({ length: 24 }).map((_, i) => (
+                    {Array.from({ length: 8 }).map((_, i) => (
                         <div key={i} className="rounded-lg overflow-hidden flex flex-col shadow-[0px_3px_8px_rgba(0,0,0,0.24)]">
                             <Skeleton variant="rectangular" height={128} />
                         </div>
                     ))}
+                </div>
+                <div className="flex justify-center mt-12">
+                    <Skeleton width={140} height={32} variant="rounded" />
                 </div>
             </div>
         );
@@ -97,44 +105,59 @@ export default function Agents() {
                 className="text-2xl font-bold mb-4">
                 AGENTS
             </motion.h3>
-            <motion.div
-                variants={fadeIn}
-                initial="hidden"
-                whileInView="visible"
-                viewport={{ once: false, amount: 0.2 }}
-                className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 lg:grid-cols-6 xl:grid-cols-8 gap-6">
-                {agents.map((agent) => (
-                    <div
-                        key={agent.uuid}
-                        onClick={() => handleSelectAgent(agent)}
-                        className="rounded-lg overflow-hidden bg-white flex flex-col shadow-[0px_3px_8px_rgba(0,0,0,0.24)] cursor-pointer hover:shadow-[0px_5px_15px_rgba(0,0,0,0.3)] transition-shadow duration-300">
-                        <Image
-                            src={agent.displayIcon}
-                            alt={agent.displayName}
-                            title={`Name: ${agent.displayName}\nRole: ${agent.role.displayName}`}
-                            width={400}
-                            height={400}
-                            className="w-full h-32 object-cover"
-                            loading="eager" />
-                    </div>
-                ))}
-            </motion.div>
-            <AnimatePresence>
-                {selectedAgent && (
+            <AnimatePresence mode="wait">
+                {selectedAgent === null ? (
                     <motion.div
-                        variants={fadeInUp}
+                        key="grid"
+                        variants={fadeIn}
+                        initial="hidden"
+                        whileInView="visible"
+                        viewport={{ once: false, amount: 0.2 }}
+                        className="grid grid-cols-3 md:grid-cols-4 lg:grid-cols-6 xl:grid-cols-8 gap-6">
+                        {visibleAgents.map((agent) => (
+                            <motion.div
+                                layoutId={agent.uuid}
+                                key={agent.uuid}
+                                onClick={() => handleSelectAgent(agent)}
+                                className="relative w-full h-32 rounded-lg overflow-hidden bg-white flex flex-col shadow-md cursor-pointer hover:shadow-lg transition-shadow">
+                                <Image
+                                    src={agent.displayIcon}
+                                    alt={agent.displayName}
+                                    title={`Name: ${agent.displayName}\nRole: ${agent.role.displayName}`}
+                                    fill
+                                    unoptimized
+                                    className="object-cover"
+                                    loading="eager" />
+                            </motion.div>
+                        ))}
+                    </motion.div>
+                ) : (
+                    <motion.div
+                        layoutId={selectedAgent.uuid}
+                        key="detail"
                         initial="hidden"
                         animate="visible"
                         exit="hidden"
-                        className="fixed inset-0 z-50"
-                        onClick={handleCloseModal}>
-                        <div className="relative w-full h-full bg-[#111111] p-6 overflow-hidden shadow-[0px_3px_8px_rgba(0,0,0,0.24)]" >
-                            <div className="absolute top-2 right-2 z-10 bg-[#111111]/80 rounded-full p-2 hover:bg-black/90 cursor-pointer transition" onClick={handleCloseModal}>
-                                <HiX className="h-4 w-4 fill-white" />
-                            </div>
+                        className="w-full flex flex-col gap-2">
+                        <div className="relative w-full h-full bg-[#111111] overflow-hidden shadow-[0px_3px_8px_rgba(0,0,0,0.24)] rounded-lg ">
+                            <button onClick={handleCloseModal} className="absolute top-4 right-4 z-20 bg-black/60 rounded-full p-2 hover:bg-black/90 transition-colors cursor-pointer">
+                                <HiX className="h-5 w-5 text-white" />
+                            </button>
                             <div className="absolute inset-0 bg-cover bg-center bg-no-repeat" style={{ backgroundImage: `${gradientCSS}, url(${selectedAgent.background})` }} />
-                            <div className="flex flex-col items-center justify-center h-full w-full">
-                                <div className="relative w-full h-full max-w-5xl max-h-5xl">
+                            <div className="relative z-10 h-[70vh] select-none">
+                                {!isImageLoading && (
+                                    <div className="absolute top-4 left-4 rounded-lg overflow-hidden bg-white shadow-md w-12 h-12 md:w-16 md:h-16">
+                                        <Image
+                                            src={selectedAgent.displayIcon}
+                                            alt={selectedAgent.displayName}
+                                            fill
+                                            className="object-cover"
+                                            unoptimized
+                                            priority
+                                            loading="eager" />
+                                    </div>
+                                )}
+                                <div className="relative w-full h-full">
                                     {isImageLoading && (
                                         <div className="absolute inset-0 flex items-center justify-center z-10">
                                             <CircularProgress size={60} sx={{ color: "#ff4655" }} />
@@ -145,25 +168,44 @@ export default function Agents() {
                                         alt={selectedAgent.displayName}
                                         fill
                                         unoptimized
-                                        className="object-contain"
+                                        priority
+                                        className={`object-contain transition-opacity duration-300 ${isImageLoading ? "opacity-0" : "opacity-100"}`}
                                         onLoad={() => setIsImageLoading(false)}
-                                        onError={() => setIsImageLoading(false)}
-                                        loading="eager" />
+                                        onError={() => setIsImageLoading(false)} />
                                 </div>
                                 {!isImageLoading && (
-                                    <div className="flex justify-end w-full">
+                                    <div className="absolute bottom-4 right-4 max-w-md flex flex-col gap-4 z-20">
+                                        <div className="hidden xl:flex flex-col gap-1 p-6 bg-[#111111]/80 rounded-lg shadow-lg text-white">
+                                            <div className="absolute top-6 right-6">
+                                                <div className="relative h-12 w-12">
+                                                    <Image
+                                                        src={selectedAgent.displayIcon}
+                                                        alt={selectedAgent.displayName}
+                                                        fill
+                                                        className="object-contain rounded-full"
+                                                        unoptimized
+                                                        loading="eager" />
+                                                </div>
+                                            </div>
+                                            <h4 className="text-sm">Agent Name</h4>
+                                            <span className="text-lg font-semibold">{selectedAgent.displayName}</span>
+                                            <h4 className="text-sm">Developer Name</h4>
+                                            <span className="text-lg font-semibold">{selectedAgent.developerName}</span>
+                                            <div className="bg-gray-500 h-0.5 w-full my-2" />
+                                            <p className="text-lg">{selectedAgent.description}</p>
+                                        </div>
                                         <motion.div
                                             variants={staggerContainer}
                                             initial="hidden"
                                             animate="visible"
-                                            className="grid grid-flow-col gap-4 z-10">
+                                            className="grid grid-flow-row md:grid-flow-col gap-4 z-10">
                                             {selectedAgent.abilities.map((ability, idx) => (
                                                 <motion.div
                                                     variants={slideInRight}
                                                     key={idx}
                                                     className="relative group select-none"
                                                     onClick={(e) => e.stopPropagation()}>
-                                                    <div className="relative h-12 w-12 xl:h-18 xl:w-18 p-4 rounded-full bg-black/50 flex items-center justify-center hover:bg-black/70 cursor-pointer transition">
+                                                    <div className="relative h-12 w-12 xl:h-full xl:w-full p-4 rounded-full bg-black/50 flex items-center justify-center hover:bg-black/70 cursor-pointer transition">
                                                         <div className="relative h-6 w-6">
                                                             <Image
                                                                 src={ability.displayIcon || selectedAgent.displayIcon}
@@ -189,9 +231,26 @@ export default function Agents() {
                                 )}
                             </div>
                         </div>
+                        <div className="flex xl:hidden flex-col gap-1 mt-2">
+                            <h4 className="text-sm">Agent Name</h4>
+                            <span className="text-lg font-semibold">{selectedAgent.displayName}</span>
+                            <h4 className="text-sm">Developer Name</h4>
+                            <span className="text-lg font-semibold">{selectedAgent.developerName}</span>
+                            <div className="bg-gray-500 h-0.5 w-full my-2" />
+                            <p className="text-lg">{selectedAgent.description}</p>
+                        </div>
                     </motion.div>
                 )}
             </AnimatePresence>
+            {hasMoreAgents && selectedAgent === null && (
+                <div className="mx-auto mt-12 w-fit border border-black overflow-hidden">
+                    <button
+                        onClick={handleShowMoreAgents}
+                        className="bg-[#ff4655] text-white px-6 py-2 m-0.5 hover:bg-[#e03e4c] transition-colors cursor-pointer">
+                        Show More
+                    </button>
+                </div>
+            )}
         </div>
     );
 }

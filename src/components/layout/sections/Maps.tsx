@@ -15,7 +15,7 @@ export default function Maps() {
     const [visibleCount, setVisibleCount] = useState(4);
     const [expandedCallouts, setExpandedCallouts] = useState<Set<string>>(new Set());
     const [loading, setLoading] = useState(true);
-    const ready = useDelay(1000);
+    const ready = useDelay(2000);
 
     useEffect(() => {
         async function loadMaps() {
@@ -34,7 +34,7 @@ export default function Maps() {
     }, []);
 
     const handleShowMoreMaps = () => {
-        setVisibleCount(prev => prev + 4);
+        setVisibleCount(vc => vc + 4);
     };
 
     const toggleCallouts = (mapUuid: string) => {
@@ -79,7 +79,7 @@ export default function Maps() {
                         </div>
                     ))}
                 </div>
-                <div className="flex justify-center mt-8">
+                <div className="flex justify-center mt-12">
                     <Skeleton width={140} height={32} variant="rounded" />
                 </div>
             </div>
@@ -162,17 +162,15 @@ export default function Maps() {
                     );
                 })}
             </div>
-            {
-                hasMoreMaps && (
-                    <div className="flex justify-center mt-12">
-                        <button
-                            onClick={handleShowMoreMaps}
-                            className="bg-[#ff4655] text-white px-6 py-2 rounded-lg hover:bg-[#e03e4c] transition-colors cursor-pointer">
-                            Show More Maps
-                        </button>
-                    </div>
-                )
-            }
+            {hasMoreMaps && (
+                <div className="mx-auto mt-12 w-fit border border-black overflow-hidden">
+                    <button
+                        onClick={handleShowMoreMaps}
+                        className="bg-[#ff4655] text-white px-6 py-2 m-0.5 hover:bg-[#e03e4c] transition-colors cursor-pointer">
+                        Show More
+                    </button>
+                </div>
+            )}
         </div >
     );
 }
