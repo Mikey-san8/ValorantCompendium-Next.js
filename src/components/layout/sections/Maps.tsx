@@ -14,16 +14,20 @@ export default function Maps() {
     const [error, setError] = useState<string | null>(null);
     const [visibleCount, setVisibleCount] = useState(4);
     const [expandedCallouts, setExpandedCallouts] = useState<Set<string>>(new Set());
+    const [loading, setLoading] = useState(true);
     const ready = useDelay(1000);
 
     useEffect(() => {
         async function loadMaps() {
+            setLoading(true);
             try {
                 const data = await fetchMaps();
                 setMaps(data);
                 setError(null);
             } catch (err) {
                 setError("Unable to load maps. Please try again later.");
+            } finally {
+                setLoading(false);
             }
         }
         loadMaps();
@@ -48,15 +52,14 @@ export default function Maps() {
     const visibleMaps = maps.slice(0, visibleCount);
     const hasMoreMaps = visibleCount < maps.length;
 
-    if (!ready) {
+    if (!ready || loading) {
         return (
             <div className="container mx-auto my-10">
-                <div className="flex items-center gap-4 mb-8">
-                    <Skeleton variant="circular" width={42} height={42} />
+                <div className="mb-4">
                     <Skeleton variant="rectangular" width={100} height={42} />
                 </div>
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-                    {Array.from({ length: visibleCount }).map((_, i) => (
+                    {Array.from({ length: 4 }).map((_, i) => (
                         <div key={i} className="rounded-lg overflow-hidden flex flex-col max-h-90 shadow-[0px_3px_8px_rgba(0,0,0,0.24)]">
                             <div className="relative h-48 w-full">
                                 <Skeleton height="100%" variant="rectangular" />
@@ -86,7 +89,7 @@ export default function Maps() {
     if (error) {
         return (
             <div className="container mx-auto my-10">
-                <div className="flex items-center justify-center gap-4 mb-8">
+                <div className="flex items-center justify-center gap-4 mb-4">
                     <SiValorant className="h-8 w-8 fill-gray-500" />
                     <label className="text-2xl text-[#ff4655]">{error}</label>
                 </div>
@@ -161,7 +164,7 @@ export default function Maps() {
             </div>
             {
                 hasMoreMaps && (
-                    <div className="flex justify-center mt-8">
+                    <div className="flex justify-center mt-12">
                         <button
                             onClick={handleShowMoreMaps}
                             className="bg-[#ff4655] text-white px-6 py-2 rounded-lg hover:bg-[#e03e4c] transition-colors cursor-pointer">

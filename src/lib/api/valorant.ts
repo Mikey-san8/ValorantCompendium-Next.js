@@ -5,14 +5,14 @@ const api = axios.create({
     timeout: 10000,
 });
 
-export async function fetchAgents() {
-    const { data } = await api.get("/agents");
-    return data.data.filter((agent: any) => agent.isPlayableCharacter === true);
-}
-
 export async function fetchMaps() {
     const { data } = await api.get("/maps");
     return data.data.filter((map: any) => map.uuid !== "Therm" && map.displayicon !== null && map.callouts !== null);
+}
+
+export async function fetchAgents() {
+    const { data } = await api.get("/agents");
+    return data.data.filter((agent: any) => agent.isPlayableCharacter === true);
 }
 
 export async function fetchWeapons() {
