@@ -5,26 +5,29 @@ const api = axios.create({
     timeout: 10000,
 });
 
-export async function fetchMaps() {
-    const { data } = await api.get("/maps");
-    return data.data.filter((map: any) => map.uuid !== "Therm" && map.displayicon !== null && map.callouts !== null);
+export async function fetchGameModes() {
+    const { data } = await api.get("/gamemodes");
+    return data.data;
 }
 
-export async function fetchAgents() {
-    const { data } = await api.get("/agents");
-    return data.data.filter((agent: any) => agent.isPlayableCharacter === true);
+export async function fetchBuddies() {
+    const { data } = await api.get("/buddies");
+    return data.data;
 }
 
-export async function fetchWeapons() {
-    const { data } = await api.get("/weapons");
+export async function fetchCurrencies() {
+    const { data } = await api.get("/currencies");
+    return data.data;
+}
+
+export async function fetchPlayerCards() {
+    const { data } = await api.get("/playercards");
     return data.data;
 }
 
 export async function fetchAllData() {
-    const [agents, maps, weapons] = await Promise.all([
-        fetchAgents(),
-        fetchMaps(),
-        fetchWeapons(),
+    const [modes] = await Promise.all([
+        fetchGameModes()
     ]);
-    return { agents, maps, weapons };
+    return { modes };
 }
