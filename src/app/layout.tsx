@@ -2,9 +2,9 @@ import type { Metadata } from "next";
 import { Oxanium } from "next/font/google";
 import "./globals.css";
 
-import Header from "@/components/layout/Header";
+import Header from "@/components/layout/semantics/Header";
 import SmoothScroll from "@/components/layout/SmoothScroll";
-import Footer from "@/components/layout/Footer";
+import Footer from "@/components/layout/semantics/Footer";
 
 const oxanium = Oxanium({
   subsets: ["latin"],

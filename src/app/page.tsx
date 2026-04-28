@@ -1,4 +1,4 @@
-import Sections from "@/components/layout/Sections";
+import Sections from "@/components/layout/semantics/Sections";
 
 export default function Home() {
   return (

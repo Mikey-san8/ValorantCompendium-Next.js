@@ -6,7 +6,7 @@ import { useLenis } from "@/components/layout/SmoothScroll";
 
 import { SiValorant } from "react-icons/si";
 
-import Navigation from "./Navigation";
+import Navigation from "../Navigation";
 
 export default function Header() {
     const lenis = useLenis();

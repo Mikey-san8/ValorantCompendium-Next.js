@@ -8,7 +8,7 @@ import { HiMenu, HiX } from "react-icons/hi";
 import { DiOpensource } from "react-icons/di";
 import { SiValorant } from "react-icons/si";
 
-type SectionId = "home" | "maps" | "agents" | "weapons";
+type SectionId = "home" | "gamemodes" | "buddies" | "playercards" | "currencies";
 
 export default function Navigation() {
     const lenis = useLenis();
@@ -84,27 +84,32 @@ export default function Navigation() {
                 </motion.button>
                 <motion.button
                     variants={slideInRight}
-                    onClick={() => handleScroll("#maps")}
-                    className={getButtonClass("maps")}>
-                    Maps
+                    onClick={() => handleScroll("#gamemodes")}
+                    className={getButtonClass("gamemodes")}>
+                    Game Modes
                 </motion.button>
                 <motion.button
                     variants={slideInRight}
-                    onClick={() => handleScroll("#agents")}
-                    className={getButtonClass("agents")}>
-                    Agents
+                    onClick={() => handleScroll("#buddies")}
+                    className={getButtonClass("buddies")}>
+                    Buddies
                 </motion.button>
                 <motion.button
                     variants={slideInRight}
-                    onClick={() => handleScroll("#weapons")}
-                    className={getButtonClass("weapons")}>
-                    Weapons
+                    onClick={() => handleScroll("#playercards")}
+                    className={getButtonClass("playercards")}>
+                    Player Cards
+                </motion.button>
+                <motion.button
+                    variants={slideInRight}
+                    onClick={() => handleScroll("#currencies")}
+                    className={getButtonClass("currencies")}>
+                    Currencies
                 </motion.button>
                 <motion.a href="https://dash.valorant-api.com/" target="_blank" rel="noopener noreferrer" variants={slideInRight} className="cursor-pointer">
                     <DiOpensource className="h-10 w-10 fill-white" />
                 </motion.a>
             </motion.nav>
-
             <div className="block md:hidden">
                 <button
                     onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
