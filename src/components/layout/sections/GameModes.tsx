@@ -6,7 +6,7 @@ import { motion } from "framer-motion";
 import { fadeIn, fadeInUp, slideInLeft, staggerContainer } from "@/lib/motion/variants";
 
 export default function GameModes() {
-    const ready = useDelay(2000);
+    const ready = useDelay(1000);
 
     if (!ready) {
         return (
@@ -40,7 +40,7 @@ export default function GameModes() {
                         of Spike Rush, Swift Play, Deathmatch, Escalation, and more.
                         Valorant offers a mode for every mood and skill level.
                     </motion.p>
-                    <motion.a variants={slideInLeft} className="bg-[#ff4655] text-white text-lg font-semibold py-4 px-8 shadow-lg w-fit mt-12 hover:bg-[#111111] hover:text-white cursor-pointer transition-colors duration-300">
+                    <motion.a href="/gamemodes" variants={slideInLeft} className="bg-[#ff4655] text-white text-lg font-semibold py-4 px-8 shadow-lg w-fit mt-12 hover:bg-[#111111] hover:text-white cursor-pointer transition-colors duration-300">
                         VIEW ALL MODES
                     </motion.a>
                 </motion.div>

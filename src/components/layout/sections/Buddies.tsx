@@ -14,10 +14,10 @@ export default function Buddies() {
     const [buddy, setBuddies] = useState<BuddyData[]>([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
-    const ready = useDelay(2000);
+    const ready = useDelay(1000);
 
     useEffect(() => {
-        async function loadMaps() {
+        async function loadBuddies() {
             setLoading(true);
             try {
                 const data = await fetchBuddies();
@@ -29,12 +29,12 @@ export default function Buddies() {
                 setBuddies(shuffled.slice(0, 20));
                 setError(null);
             } catch (err) {
-                setError("Unable to load maps. Please try again later.");
+                setError("Unable to load buddies. Please try again later.");
             } finally {
                 setLoading(false);
             }
         }
-        loadMaps();
+        loadBuddies();
     }, []);
 
     if (!ready || loading) {
@@ -48,7 +48,7 @@ export default function Buddies() {
     if (error) {
         return (
             <div className="container mx-auto my-20">
-                <div className="flex items-center justify-center gap-4 mb-4">
+                <div className="flex items-center justify-center gap-4">
                     <SiValorant className="h-8 w-8 fill-gray-500" />
                     <label className="text-2xl text-[#ff4655]">{error}</label>
                 </div>
@@ -95,7 +95,7 @@ export default function Buddies() {
                         Collect limited-edition charms from battle passes, events, and agent contracts - each one adds a
                         personal touch to your loadout.
                     </motion.p>
-                    <motion.a variants={slideInRight} className="bg-[#111111] text-white text-lg font-semibold py-4 px-8 shadow-lg w-fit mt-12 hover:bg-[#f1f1f1] hover:text-black cursor-pointer transition-colors duration-300">
+                    <motion.a href="/buddies" variants={slideInRight} className="bg-[#111111] text-white text-lg font-semibold py-4 px-8 shadow-lg w-fit mt-12 hover:bg-[#f1f1f1] hover:text-black cursor-pointer transition-colors duration-300">
                         VIEW ALL BUDDIES
                     </motion.a>
                 </motion.div>

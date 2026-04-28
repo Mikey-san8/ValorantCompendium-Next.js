@@ -14,10 +14,10 @@ export default function PlayerCards() {
     const [playerCard, setPlayerCards] = useState<PlayerCardData[]>([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
-    const ready = useDelay(2000);
+    const ready = useDelay(1000);
 
     useEffect(() => {
-        async function loadCurrencies() {
+        async function loadPlayerCards() {
             setLoading(true);
             try {
                 const data = await fetchPlayerCards();
@@ -34,7 +34,7 @@ export default function PlayerCards() {
                 setLoading(false);
             }
         }
-        loadCurrencies();
+        loadPlayerCards();
     }, []);
 
     if (!ready || loading) {
@@ -48,7 +48,7 @@ export default function PlayerCards() {
     if (error) {
         return (
             <div className="container mx-auto my-20">
-                <div className="flex items-center justify-center gap-4 mb-4">
+                <div className="flex items-center justify-center gap-4">
                     <SiValorant className="h-8 w-8 fill-gray-500" />
                     <label className="text-2xl text-[#ff4655]">{error}</label>
                 </div>

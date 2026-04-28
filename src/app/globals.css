@@ -1,6 +1,16 @@
 @import "tailwindcss";
 
 /* Navigation underline animation */
+html,
+body {
+    margin: 0;
+    padding: 0;
+}
+
+html {
+    overflow-x: hidden;
+}
+
 .animated-underline {
     position: relative;
     text-decoration: none;

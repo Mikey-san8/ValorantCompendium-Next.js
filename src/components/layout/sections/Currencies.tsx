@@ -8,12 +8,13 @@ import { motion } from "framer-motion";
 import { fadeIn, fadeInUp, slideInRight, staggerContainer } from "@/lib/motion/variants";
 import { CurrencyData } from "@/types/currencies";
 import { fetchCurrencies } from "@/lib/api/valorant";
+import { SiValorant } from "react-icons/si";
 
 export default function Currencies() {
     const [currency, setCurrencies] = useState<CurrencyData[]>([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
-    const ready = useDelay(2000);
+    const ready = useDelay(1000);
 
     useEffect(() => {
         async function loadCurrencies() {
@@ -35,6 +36,17 @@ export default function Currencies() {
         return (
             <div className="container mx-auto my-20">
                 <span>Loading</span>
+            </div>
+        );
+    }
+
+    if (error) {
+        return (
+            <div className="container mx-auto my-20">
+                <div className="flex items-center justify-center gap-4">
+                    <SiValorant className="h-8 w-8 fill-gray-500" />
+                    <label className="text-2xl text-[#ff4655]">{error}</label>
+                </div>
             </div>
         );
     }
