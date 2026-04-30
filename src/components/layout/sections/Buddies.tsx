@@ -31,17 +31,17 @@ export default function Buddies() {
     if (isLoading) {
         return (
             <div className="container mx-auto my-20 text-white">
-                <div className="grid grid-cols-2 gap-20">
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 md:gap-20">
                     <div className="flex items-center justify-center">
-                        <div className="grid grid-cols-5 gap-4">
+                        <div className="grid grid-cols-4 md:grid-cols-5 gap-4">
                             {Array.from({ length: 20 }).map((_, i) => (
-                                <div key={i} className="w-22 h-22 rounded-lg shadow-lg overflow-hidden">
+                                <div key={i} className="w-22 h-22 bg-black/20 shadow-lg overflow-hidden">
                                     <Skeleton variant="rectangular" width={88} height={88} />
                                 </div>
                             ))}
                         </div>
                     </div>
-                    <div className="flex flex-col justify-center gap-4">
+                    <div className="flex flex-col justify-center gap-2">
                         <Skeleton variant="text" width={250} height={80} />
                         <Skeleton variant="text" width={200} height={30} />
                         <Skeleton variant="text" width="100%" height={80} />
@@ -70,18 +70,18 @@ export default function Buddies() {
 
     return (
         <div className="container mx-auto my-20 text-white">
-            <div className="grid grid-cols-2 gap-20">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 md:gap-20">
                 <div className="flex items-center justify-center">
-                    <div className="grid grid-cols-5 gap-4">
+                    <div className="grid grid-cols-4 md:grid-cols-5 gap-4">
                         {randomBuddies.map((buddy) => (
-                            <div key={buddy.uuid} className="relative w-22 h-22 rounded-lg shadow-lg overflow-hidden">
+                            <div key={buddy.uuid} className="relative w-22 h-22 bg-black/20 shadow-lg overflow-hidden">
                                 <Image
                                     src={buddy.displayIcon}
                                     alt={buddy.displayName}
                                     fill
                                     unoptimized
                                     loading="eager"
-                                    className="object-cover" />
+                                    className="object-contain p-4" />
                             </div>
                         ))}
                     </div>
@@ -92,7 +92,7 @@ export default function Buddies() {
                     whileInView="visible"
                     viewport={{ once: false, amount: 0.2 }}
                     className="flex flex-col justify-center">
-                    <motion.h3 variants={fadeIn} className="text-8xl font-bold mb-4">
+                    <motion.h3 variants={fadeIn} className="text-5xl lg:text-6xl xl:text-7xl 2xl:text-8xl font-bold mb-4">
                         BUDDIES
                     </motion.h3>
                     <motion.h4 variants={fadeIn} className="text-md font-bold mb-2">

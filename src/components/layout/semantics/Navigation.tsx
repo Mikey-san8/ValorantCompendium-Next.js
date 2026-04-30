@@ -140,17 +140,17 @@ export default function Navigation() {
                         className="fixed top-18 right-2 bg-[#111111] rounded-lg z-50 md:hidden shadow-[0px_3px_8px_rgba(0,0,0,0.24)]">
                         <div className="flex flex-col gap-6 p-6">
                             <button
-                                onClick={() => handleRoute("#gamemodes")}
+                                onClick={() => handleRoute("gamemodes")}
                                 className="text-white text-left">
                                 Game Modes
                             </button>
                             <button
-                                onClick={() => handleRoute("#buddies")}
+                                onClick={() => handleRoute("buddies")}
                                 className="text-white text-left">
                                 Buddies
                             </button>
                             <button
-                                onClick={() => handleRoute("#playercards")}
+                                onClick={() => handleRoute("playercards")}
                                 className="text-white text-left">
                                 Player Cards
                             </button>

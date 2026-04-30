@@ -10,16 +10,16 @@ export default function Sections() {
             <section id="home" className="relative h-[calc(100vh-70px)] flex items-center justify-center overflow-hidden">
                 <Hero />
             </section>
-            <section id="gamemodes" className="p-8 scroll-mt-20 bg-[#1a1a1a]/5">
+            <section id="gamemodes" className="px-8 md:py-8 scroll-mt-20 bg-[#1a1a1a]/5">
                 <GameModes />
             </section>
-            <section id="buddies" className="p-8 scroll-mt-20 bg-[#1a1a1a]">
+            <section id="buddies" className="px-8 md:py-8 scroll-mt-20 bg-[#1a1a1a]">
                 <Buddies />
             </section>
-            <section id="playercards" className="p-8 scroll-mt-20 bg-[#1a1a1a]/5">
+            <section id="playercards" className="px-8 md:py-8 scroll-mt-20 bg-[#1a1a1a]/5">
                 <PlayerCards />
             </section>
-            <section id="currencies" className="p-8 scroll-mt-20 bg-[#ff4655]">
+            <section id="currencies" className="px-8 md:py-8 scroll-mt-20 bg-[#ff4655]">
                 <Currencies />
             </section>
         </div>
