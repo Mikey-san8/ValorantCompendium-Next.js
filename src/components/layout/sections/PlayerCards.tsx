@@ -31,8 +31,8 @@ export default function PlayerCards() {
     if (isLoading) {
         return (
             <div className="container mx-auto my-20">
-                <div className="grid grid-cols-2 gap-20">
-                    <div className="flex flex-col justify-center gap-4">
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 md:gap-20">
+                    <div className="flex flex-col justify-center gap-2">
                         <Skeleton variant="text" width={300} height={80} />
                         <Skeleton variant="text" width={200} height={30} />
                         <Skeleton variant="text" width="100%" height={80} />
@@ -58,8 +58,7 @@ export default function PlayerCards() {
                     <label className="text-2xl text-[#ff4655]">{error}</label>
                     <button
                         onClick={refetch}
-                        className="bg-[#ff4655] text-white px-4 py-2 rounded-lg"
-                    >
+                        className="bg-[#ff4655] text-white px-4 py-2 rounded-lg">
                         Retry
                     </button>
                 </div>
@@ -69,14 +68,14 @@ export default function PlayerCards() {
 
     return (
         <div className="container mx-auto my-20">
-            <div className="grid grid-cols-2 gap-20">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 md:gap-20">
                 <motion.div
                     variants={staggerContainer}
                     initial="hidden"
                     whileInView="visible"
                     viewport={{ once: false, amount: 0.2 }}
                     className="flex flex-col justify-center">
-                    <motion.h3 variants={fadeIn} className="text-8xl font-bold mb-4">
+                    <motion.h3 variants={fadeIn} className="text-5xl lg:text-6xl xl:text-7xl 2xl:text-8xl font-bold mb-4">
                         PLAYER CARDS
                     </motion.h3>
                     <motion.h4 variants={fadeIn} className="text-md font-bold mb-2">
@@ -98,7 +97,7 @@ export default function PlayerCards() {
                     initial="hidden"
                     whileInView="visible"
                     viewport={{ once: false, amount: 0.2 }}
-                    className="grid grid-flow-col gap-4">
+                    className="grid grid-cols-2 md:grid-cols-4 gap-4">
                     {randomCards.map((card) => (
                         <motion.div
                             key={card.uuid}
@@ -110,7 +109,7 @@ export default function PlayerCards() {
                                 fill
                                 unoptimized
                                 loading="eager"
-                                className="object-cover" />
+                                className="object-fill" />
                         </motion.div>
                     ))}
                 </motion.div>

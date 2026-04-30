@@ -19,7 +19,7 @@ export default function Currencies() {
     if (isLoading) {
         return (
             <div className="container mx-auto my-20">
-                <div className="grid grid-cols-2 gap-20 text-white">
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 md:gap-20 text-white">
                     <div className="flex items-center justify-center">
                         <div className="grid grid-flow-col gap-6">
                             {Array.from({ length: 3 }).map((_, i) => (
@@ -29,7 +29,7 @@ export default function Currencies() {
                             ))}
                         </div>
                     </div>
-                    <div className="flex flex-col justify-center gap-4">
+                    <div className="flex flex-col justify-center gap-2">
                         <Skeleton variant="text" width={300} height={80} />
                         <Skeleton variant="text" width={250} height={30} />
                         <Skeleton variant="text" width="100%" height={100} />
@@ -57,7 +57,7 @@ export default function Currencies() {
 
     return (
         <div className="container mx-auto my-20">
-            <div className="grid grid-cols-2 gap-20 text-white">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 md:gap-20 text-white">
                 <div className="flex items-center justify-center">
                     <motion.div
                         variants={staggerContainer}
@@ -69,7 +69,7 @@ export default function Currencies() {
                             <motion.div
                                 variants={fadeInUp}
                                 key={currency.uuid}
-                                className="relative h-32 w-32 overflow-hidden">
+                                className="relative h-22 w-22 lg:h-32 lg:w-32 overflow-hidden">
                                 <Image
                                     src={currency.displayIcon}
                                     alt={currency.displayName}
@@ -89,7 +89,7 @@ export default function Currencies() {
                     whileInView="visible"
                     viewport={{ once: false, amount: 0.2 }}
                     className="flex flex-col justify-center">
-                    <motion.h3 variants={fadeIn} className="text-8xl font-bold mb-4">
+                    <motion.h3 variants={fadeIn} className="text-5xl lg:text-6xl xl:text-7xl 2xl:text-8xl font-bold mb-4">
                         CURRENCIES
                     </motion.h3>
                     <motion.h4 variants={fadeIn} className="text-md font-bold mb-2">
