@@ -24,7 +24,8 @@ export default function Hero() {
                 whileInView="visible"
                 viewport={{ once: false, amount: 0.2 }}
                 className="relative z-20 mx-6 flex flex-col items-center gap-10">
-                <motion.img variants={scaleUp}
+                <motion.img
+                    variants={scaleUp}
                     src="https://upload.wikimedia.org/wikipedia/commons/4/44/Valorant_logo.svg"
                     alt="valorant"
                     className="w-4xl h-auto object-contain invert" />

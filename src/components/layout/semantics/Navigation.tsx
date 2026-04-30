@@ -2,16 +2,19 @@
 
 import { useState, useEffect } from "react";
 import { useLenis } from "@/components/layout/SmoothScroll";
+import { useRouter } from "next/navigation";
+import { usePathname } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import { slideInRight, staggerContainer } from "@/lib/motion/variants";
 import { HiMenu, HiX } from "react-icons/hi";
 import { DiOpensource } from "react-icons/di";
-import { SiValorant } from "react-icons/si";
 
 type SectionId = "home" | "gamemodes" | "buddies" | "playercards" | "currencies";
 
 export default function Navigation() {
     const lenis = useLenis();
+    const router = useRouter();
+    const pathname = usePathname();
     const [activeSection, setActiveSection] = useState<SectionId>("home");
     const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
@@ -53,11 +56,25 @@ export default function Navigation() {
         };
     }, []);
 
-    const handleScroll = (targetId: string) => {
-        if (targetId === "#") {
-            lenis?.scrollTo(0, { offset: 0, duration: 1.2 });
+    const handleRoute = (targetId: string) => {
+        if (targetId === "#currencies") {
+            if (pathname !== "/") {
+                router.push("/");
+                setTimeout(() => {
+                    const element = document.querySelector("#currencies");
+                    if (element) {
+                        lenis?.scrollTo("#currencies", { offset: 0, duration: 1.2 });
+                    } else {
+                        setTimeout(() => {
+                            lenis?.scrollTo("#currencies", { offset: 0, duration: 1.2 });
+                        }, 500);
+                    }
+                }, 1500);
+            } else {
+                lenis?.scrollTo(targetId, { offset: 0, duration: 1.2 });
+            }
         } else {
-            lenis?.scrollTo(targetId, { offset: 0, duration: 1.2 });
+            router.push(targetId);
         }
         closeMenu();
     };
@@ -78,31 +95,25 @@ export default function Navigation() {
                 className="hidden md:flex items-center justify-center gap-8">
                 <motion.button
                     variants={slideInRight}
-                    onClick={() => handleScroll("#")}
-                    className={getButtonClass("home")}>
-                    Home
-                </motion.button>
-                <motion.button
-                    variants={slideInRight}
-                    onClick={() => handleScroll("#gamemodes")}
+                    onClick={() => handleRoute("gamemodes")}
                     className={getButtonClass("gamemodes")}>
                     Game Modes
                 </motion.button>
                 <motion.button
                     variants={slideInRight}
-                    onClick={() => handleScroll("#buddies")}
+                    onClick={() => handleRoute("buddies")}
                     className={getButtonClass("buddies")}>
                     Buddies
                 </motion.button>
                 <motion.button
                     variants={slideInRight}
-                    onClick={() => handleScroll("#playercards")}
+                    onClick={() => handleRoute("playercards")}
                     className={getButtonClass("playercards")}>
                     Player Cards
                 </motion.button>
                 <motion.button
                     variants={slideInRight}
-                    onClick={() => handleScroll("#currencies")}
+                    onClick={() => handleRoute("#currencies")}
                     className={getButtonClass("currencies")}>
                     Currencies
                 </motion.button>
@@ -128,28 +139,25 @@ export default function Navigation() {
                         transition={{ duration: 0.2 }}
                         className="fixed top-18 right-2 bg-[#111111] rounded-lg z-50 md:hidden shadow-[0px_3px_8px_rgba(0,0,0,0.24)]">
                         <div className="flex flex-col gap-6 p-6">
-                            <div className="flex items-center justify-center">
-                                <SiValorant className="h-8 w-8 fill-[#ff4655]" />
-                            </div>
                             <button
-                                onClick={() => handleScroll("#")}
-                                className="text-white text-center">
-                                Home
+                                onClick={() => handleRoute("#gamemodes")}
+                                className="text-white text-left">
+                                Game Modes
                             </button>
                             <button
-                                onClick={() => handleScroll("#maps")}
-                                className="text-white text-center">
-                                Maps
+                                onClick={() => handleRoute("#buddies")}
+                                className="text-white text-left">
+                                Buddies
                             </button>
                             <button
-                                onClick={() => handleScroll("#agents")}
-                                className="text-white text-center">
-                                Agents
+                                onClick={() => handleRoute("#playercards")}
+                                className="text-white text-left">
+                                Player Cards
                             </button>
                             <button
-                                onClick={() => handleScroll("#weapons")}
-                                className="text-white text-center">
-                                Weapons
+                                onClick={() => handleRoute("#currencies")}
+                                className="text-white text-left">
+                                Currencies
                             </button>
                             <a href="https://dash.valorant-api.com/" target="_blank" rel="noopener noreferrer"
                                 className="flex items-center justify-center bg-white rounded-lg py-1 cursor-pointer shadow-[0px_3px_8px_rgba(0,0,0,0.24)] w-28">
