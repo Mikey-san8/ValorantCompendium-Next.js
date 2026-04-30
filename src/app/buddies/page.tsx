@@ -38,12 +38,12 @@ export default function BuddiesPage() {
 
     if (isLoading) {
         return (
-            <div className="my-20">
-                <div className="flex flex-col justify-center items-center mb-12">
-                    <Skeleton variant="text" width={500} height={150} className="mb-2" />
-                    <Skeleton variant="text" width={300} height={30} />
+            <div className="my-10 2xl:my-15">
+                <div className="flex flex-col justify-center items-center mb-8">
+                    <Skeleton variant="text" height={150} className="w-100 md:w-125 lg:w-150 mb-2" />
+                    <Skeleton variant="text" width={250} height={30} />
                 </div>
-                <div className="container mx-auto grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 xl:grid-cols-8 gap-6">
+                <div className="container mx-auto grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 xl:grid-cols-8 gap-6 px-8 3xl:px-0">
                     {Array.from({ length: 24 }).map((_, i) => (
                         <div key={i} className="flex flex-col items-center justify-center gap-4 overflow-hidden bg-[#111111]/5 p-4">
                             <Skeleton variant="circular" width={64} height={64} />
@@ -57,7 +57,7 @@ export default function BuddiesPage() {
 
     if (error) {
         return (
-            <div className="container mx-auto my-20">
+            <div className="container mx-auto my-10 2xl:my-15">
                 <div className="flex items-center justify-center gap-4">
                     <SiValorant className="h-8 w-8 fill-gray-500" />
                     <label className="text-2xl">{error}</label>
@@ -71,22 +71,22 @@ export default function BuddiesPage() {
 
     return (
         <>
-            <div className="my-20">
+            <div className="my-10 2xl:my-20">
                 <motion.div
                     variants={staggerContainer}
                     initial="hidden"
                     whileInView="visible"
                     viewport={{ once: false, amount: 0.2 }}
-                    className="flex flex-col justify-center items-center mb-12">
-                    <motion.h3 variants={fadeIn} className="text-8xl font-bold mb-2">
+                    className="flex flex-col justify-center items-center mb-8">
+                    <motion.h3 variants={fadeIn} className="text-5xl lg:text-8xl font-bold mb-2">
                         ALL BUDDIES
                     </motion.h3>
-                    <motion.h4 variants={fadeIn} className="text-lg font-bold mb-8">
+                    <motion.h4 variants={fadeIn} className="text-md lg:text-lg font-bold">
                         CHARMS FOR YOUR ARSENAL
                     </motion.h4>
                 </motion.div>
 
-                <div className="container mx-auto mb-8 flex justify-end">
+                <div className="container mx-auto mb-8 flex justify-end px-8 3xl:px-0">
                     <div className="relative w-64">
                         <HiOutlineSearch className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 h-5 w-5" />
                         <input
@@ -98,7 +98,7 @@ export default function BuddiesPage() {
                     </div>
                 </div>
 
-                <div className="container mx-auto grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 xl:grid-cols-8 gap-6">
+                <div className="container mx-auto grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 xl:grid-cols-8 gap-6 px-8 3xl:px-0">
                     {visibleBuddies.map((buddy) => (
                         <motion.div
                             variants={fadeIn}

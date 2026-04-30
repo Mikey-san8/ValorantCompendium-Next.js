@@ -1,4 +1,5 @@
 import { GameModeData } from "@/types/gamemodes";
+import { PlayerCardData } from "@/types/playercards";
 import axios from "axios";
 
 const api = axios.create({
@@ -26,7 +27,9 @@ export async function fetchCurrencies() {
 
 export async function fetchPlayerCards() {
     const { data } = await api.get("/playercards");
-    return data.data;
+    return data.data.filter((card: PlayerCardData) =>
+        card.largeArt && card.largeArt.trim() !== ""
+    );
 }
 
 export async function fetchAllData() {
